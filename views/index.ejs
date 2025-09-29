@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Whatapp</title>
+    <link rel ="stylesheet" href="style.css">
+</head>
+<body>
+    <form method="GET" action="/chats/new">   
+        
+<!-- A form is a standard way in HTML to send a request to the server when the user clicks a button.
+
+Here, instead of collecting input fields, you’re just sending a GET request to the route /chats/new.
+
+ Why method="GET"
+
+GET tells the browser to navigate to a new URL (like clicking a link).
+
+When the user clicks New Chat, the browser sends a GET request to /chats/new, and your Express route for /chats/new can render the page that shows the new chat creation form.
+--------
+This form is simply a server-side navigation trigger.
+When you click the button, the browser requests /chats/new, and Express responds with the “create new chat” page -->
+        <button>New Chat</button>
+        <br>
+    </form>
+    <h3>ALL Chats! </h3>
+    
+<% for(let chat of chats) { %>
+    <div class="chat">
+        <p>from: <%=chat.from  %></p>
+        <div class="msg">
+            <p>: <%=chat.msg  %></p>
+            <form method="GET" action="/chats/<%= chat.id %>/edit">   
+         <!-- defineing path as /chat/:id/edit -->
+                <button>edit</button>
+            </form>
+            <br>
+            <form method="POST" action="/chats/<%= chat.id %>?_method=DELETE">   
+                <button>DELETE</button>
+            </form>
+        </div>
+        <hr>
+        <p>recived by <%= chat.to %></p>
+        <hr>
+        <p><%= chat.created_at.toString().split(" ")[4] %></p>  
+        <!-- .split(" "): splite by space  -->
+        <!-- give you time -->
+        <p><%= chat.created_at.toString().split(" ").slice(0,4).join("  ") %></p>
+        <!-- .split(" "): splite by space  -->
+        <!-- and join first 4 arry to give data by .slice(0,4) -->
+        <!-- give you date by arr sliceing -->
+
+    </div>
+    <br> 
+    
+<% } %>
+</body>
+</html>
